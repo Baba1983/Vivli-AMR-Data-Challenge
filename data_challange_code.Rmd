@@ -1,0 +1,748 @@
+---
+title: "data_challange"
+author: "Babafela Awosile"
+date: "2023-06-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+##Ceftadizime
+
+```{r}
+library(tidyverse)
+library(readr)
+library (moments)
+library(rcompanion)
+
+
+ceftadizime1 <-read.csv("ceftadizime.csv")
+
+ceftadizime <- ceftadizime1 %>% 
+  filter(Gender %in% c("Male", "Female"), Age.Group %in% c("0 to 2 Years", "3 to 12 Years", "13 to 18 Years", "19 to 64 Years", "65 to 84 Years", "85 and Over"))%>%
+  select(bacteria, Country, Gender, Age.Group, Speciality, Year, Ceftazidime_mic, Ceftazidime_I, shv, tem, ctxm1, ctxm2, ctxm825, ctxm9, veb, per, ges, acc, cmy2, dha, fox, act, kpc, oxa, ndm, imp, vim)
+
+
+str(ceftadizime)
+summary(ceftadizime)
+hist(ceftadizime$Ceftazidime_mic)
+
+#log transformation
+ceftadizime$ceftadizime_log2 <-log2(ceftadizime$Ceftazidime_mic)
+
+
+ceftadizime$Year2 <- as.numeric(ceftadizime$Year)
+hist(ceftadizime$ceftadizime_log2)
+
+
+ceftadizime$bacteria <- as.factor(ceftadizime$bacteria)
+ceftadizime$Country <- as.factor(ceftadizime$Country)
+ceftadizime$Gender <- as.factor(ceftadizime$Gender)
+ceftadizime$Age.Group <- as.factor(ceftadizime$Age.Group)
+ceftadizime$Speciality <- as.factor(ceftadizime$Speciality)
+ceftadizime$Year <- as.factor(ceftadizime$Year)
+ceftadizime$shv <- as.factor(ceftadizime$shv)
+ceftadizime$tem <- as.factor(ceftadizime$tem)
+ceftadizime$ctxm1 <- as.factor(ceftadizime$ctxm1)
+ceftadizime$ctxm2 <- as.factor(ceftadizime$ctxm2)
+ceftadizime$ctxm825 <- as.factor(ceftadizime$ctxm825)
+ceftadizime$ctxm9 <- as.factor(ceftadizime$ctxm9)
+ceftadizime$veb <- as.factor(ceftadizime$veb)
+ceftadizime$per <- as.factor(ceftadizime$per)
+ceftadizime$ges <- as.factor(ceftadizime$ges)
+ceftadizime$acc <- as.factor(ceftadizime$acc)
+ceftadizime$cmy2 <- as.factor(ceftadizime$cmy2)
+ceftadizime$dha <- as.factor(ceftadizime$dha)
+ceftadizime$fox <- as.factor(ceftadizime$fox)
+ceftadizime$act <- as.factor(ceftadizime$act)
+ceftadizime$kpc <- as.factor(ceftadizime$kpc)
+ceftadizime$oxa <- as.factor(ceftadizime$oxa)
+ceftadizime$ndm <- as.factor(ceftadizime$ndm)
+ceftadizime$imp <- as.factor(ceftadizime$imp)
+ceftadizime$vim <- as.factor(ceftadizime$vim)
+
+
+
+```
+
+#ceftadizime_Simple linear regression
+```{r}
+
+library(lmtest)
+
+ceftadi1 <- lm(ceftadizime_log2 ~ bacteria, data = ceftadizime)   
+summary(ceftadi1)
+
+ceftadi2 <- lm(ceftadizime_log2 ~ Country, data = ceftadizime)   
+summary(ceftadi2)
+
+ceftadi3 <- lm(ceftadizime_log2 ~ Gender, data = ceftadizime)   
+summary(ceftadi3)
+
+ceftadi4 <- lm(ceftadizime_log2 ~ Age.Group, data = ceftadizime)   
+summary(ceftadi4)
+
+ceftadi5 <- lm(ceftadizime_log2 ~ Speciality, data = ceftadizime)   
+summary(ceftadi5)
+
+ceftadi6 <- lm(ceftadizime_log2 ~ Year2, data = ceftadizime)   
+summary(ceftadi6)
+
+ceftadi7 <- lm(ceftadizime_log2 ~ ctxm1, data = ceftadizime)   
+summary(ceftadi7)
+
+ceftadi8 <- lm(ceftadizime_log2 ~ ctxm2, data = ceftadizime)   
+summary(ceftadi8)
+
+ceftadi9 <- lm(ceftadizime_log2 ~ ctxm825, data = ceftadizime)   
+summary(ceftadi9)
+
+ceftadi10 <- lm(ceftadizime_log2 ~ ctxm9, data = ceftadizime)   
+summary(ceftadi10)
+
+ceftadi11 <- lm(ceftadizime_log2 ~ veb, data = ceftadizime)   
+summary(ceftadi11)
+
+ceftadi12 <- lm(ceftadizime_log2 ~ per, data = ceftadizime)   
+summary(ceftadi12)
+
+ceftadi13 <- lm(ceftadizime_log2 ~ ges, data = ceftadizime)   
+summary(ceftadi13)
+
+ceftadi14 <- lm(ceftadizime_log2 ~ acc, data = ceftadizime)   
+summary(ceftadi14)
+
+ceftadi15 <- lm(ceftadizime_log2 ~ cmy2, data = ceftadizime)   
+summary(ceftadi15)
+
+ceftadi17 <- lm(ceftadizime_log2 ~ dha, data = ceftadizime)   
+summary(ceftadi17)
+
+ceftadi18 <- lm(ceftadizime_log2 ~ fox, data = ceftadizime)   
+summary(ceftadi18)
+
+ceftadi19 <- lm(ceftadizime_log2 ~ act, data = ceftadizime)   
+summary(ceftadi19)
+
+ceftadi20 <- lm(ceftadizime_log2 ~ kpc, data = ceftadizime)   
+summary(ceftadi20)
+
+ceftadi21 <- lm(ceftadizime_log2 ~ oxa, data = ceftadizime)   
+summary(ceftadi21)
+
+ceftadi22 <- lm(ceftadizime_log2 ~ ndm, data = ceftadizime)   
+summary(ceftadi22)
+
+ceftadi23 <- lm(ceftadizime_log2 ~ imp, data = ceftadizime)   
+summary(ceftadi23)
+
+ceftadi24 <- lm(ceftadizime_log2 ~ vim, data = ceftadizime)   
+summary(ceftadi24)
+
+ceftadi25 <- lm(ceftadizime_log2 ~ shv, data = ceftadizime)   
+summary(ceftadi25)
+
+ceftadi26 <- lm(ceftadizime_log2 ~ tem, data = ceftadizime)   
+summary(ceftadi26)
+
+```
+
+#Multiple liniear Regression
+```{r}
+ceftadizime$bacteria <- relevel(ceftadizime$bacteria, ref = "E. coli")
+ceftadizime$Gender <- relevel(ceftadizime$Gender, ref = "Male")
+
+
+mceftadi1 <-lm(ceftadizime_log2 ~ Country+bacteria+Gender+Age.Group+Speciality+Year2+ctxm1+ctxm2+ctxm825+ctxm9+veb+per+ges+acc+cmy2+dha+fox+act+kpc+oxa+ndm+imp+vim+shv+tem, data = ceftadizime)
+
+
+summary(mceftadi1) #Adjusted R^2 =39%
+
+# Model diagnostics and checking
+par(mfrow=c(2,2))
+plot(mceftadi1)
+
+# Extract the residuals
+aov_residuals_mceftadi1 <- residuals(object = mceftadi1)
+# Run Shapiro-Wilk test
+#shapiro.test(x = aov_residuals_mceftadi1)
+
+library(car)
+vif(mceftadi1)
+
+
+#Multicollinearity test :There was no collinearity between the variables in model 1 and 2
+
+
+
+# Statistical test for constant variance or homoscedasticity
+bptest (mceftadi1)
+
+
+#p value is less than 0.05 so heterocedasticity present
+
+
+```
+
+
+#Robust model_Ceftadizime
+```{r}
+library(sandwich)
+library(lmtest)
+mceftadi1_robust <- coeftest(mceftadi1, vcov = vcovHC(mceftadi1, type = "HC1"))
+mceftadi1_robust
+
+confint(mceftadi1_robust)
+
+#Log back transform was done in log Base 2 calculator
+#https://www.omnicalculator.com/math/log-2
+
+```
+
+##Ceftraroline
+
+```{r}
+ceftraroline1 <-read.csv("ceftraroline.csv")
+
+ceftraroline <- ceftraroline1 %>% 
+  filter(Gender %in% c("Male", "Female"), Age.Group %in% c("0 to 2 Years", "3 to 12 Years", "13 to 18 Years", "19 to 64 Years", "65 to 84 Years", "85 and Over"))%>%
+  select(bacteria, Country, Gender, Age.Group, Speciality, Year, Ceftaroline_mic, shv, tem, ctxm1, ctxm2, ctxm825, ctxm9, veb, per, ges, acc, cmy2, dha, fox, act, kpc, oxa, ndm, imp, vim)
+
+
+str(ceftraroline)
+summary(ceftraroline)
+hist(ceftraroline$Ceftaroline_mic)
+
+#log transformation
+ceftraroline$ceftraroline_log2 <-log2(ceftraroline$Ceftaroline_mic)
+
+hist(ceftraroline$ceftraroline_log2)
+
+
+ceftraroline$bacteria <- as.factor(ceftraroline$bacteria)
+ceftraroline$Country <- as.factor(ceftraroline$Country)
+ceftraroline$Gender <- as.factor(ceftraroline$Gender)
+ceftraroline$Age.Group <- as.factor(ceftraroline$Age.Group)
+ceftraroline$Speciality <- as.factor(ceftraroline$Speciality)
+ceftraroline$Year <- as.factor(ceftraroline$Year)
+ceftraroline$shv <- as.factor(ceftraroline$shv)
+ceftraroline$tem <- as.factor(ceftraroline$tem)
+ceftraroline$ctxm1 <- as.factor(ceftraroline$ctxm1)
+ceftraroline$ctxm2 <- as.factor(ceftraroline$ctxm2)
+ceftraroline$ctxm825 <- as.factor(ceftraroline$ctxm825)
+ceftraroline$ctxm9 <- as.factor(ceftraroline$ctxm9)
+ceftraroline$veb <- as.factor(ceftraroline$veb)
+ceftraroline$per <- as.factor(ceftraroline$per)
+ceftraroline$ges <- as.factor(ceftraroline$ges)
+ceftraroline$acc <- as.factor(ceftraroline$acc)
+ceftraroline$cmy2 <- as.factor(ceftraroline$cmy2)
+ceftraroline$dha <- as.factor(ceftraroline$dha)
+ceftraroline$fox <- as.factor(ceftraroline$fox)
+ceftraroline$act <- as.factor(ceftraroline$act)
+ceftraroline$kpc <- as.factor(ceftraroline$kpc)
+ceftraroline$oxa <- as.factor(ceftraroline$oxa)
+ceftraroline$ndm <- as.factor(ceftraroline$ndm)
+ceftraroline$imp <- as.factor(ceftraroline$imp)
+ceftraroline$vim <- as.factor(ceftraroline$vim)
+
+ceftraroline$Year2 <- as.numeric(ceftraroline$Year)
+
+```
+
+#Simple linear regression_Ceftraroline
+```{r}
+
+library(lmtest)
+
+ceftrarol1 <- lm(ceftraroline_log2 ~ bacteria, data = ceftraroline)   
+summary(ceftrarol1)
+
+ceftrarol2 <- lm(ceftraroline_log2 ~ Country, data = ceftraroline)   
+summary(ceftrarol2)
+
+ceftrarol3 <- lm(ceftraroline_log2 ~ Gender, data = ceftraroline)   
+summary(ceftrarol3)
+
+ceftrarol4 <- lm(ceftraroline_log2 ~ Age.Group, data = ceftraroline)   
+summary(ceftrarol4)
+
+ceftrarol5 <- lm(ceftraroline_log2 ~ Speciality, data = ceftraroline)   
+summary(ceftrarol5)
+
+ceftrarol6 <- lm(ceftraroline_log2 ~ Year2, data = ceftraroline)   
+summary(ceftrarol6)
+
+ceftrarol7 <- lm(ceftraroline_log2 ~ ctxm1, data = ceftraroline)   
+summary(ceftrarol7)
+
+ceftrarol8 <- lm(ceftraroline_log2 ~ ctxm2, data = ceftraroline)   
+summary(ceftrarol8)
+
+ceftrarol9 <- lm(ceftraroline_log2 ~ ctxm825, data = ceftraroline)   
+summary(ceftrarol9)
+
+ceftrarol10 <- lm(ceftraroline_log2 ~ ctxm9, data = ceftraroline)   
+summary(ceftrarol10)
+
+ceftrarol11 <- lm(ceftraroline_log2 ~ veb, data = ceftraroline)   
+summary(ceftrarol11)
+
+ceftrarol12 <- lm(ceftraroline_log2 ~ per, data = ceftraroline)   
+summary(ceftrarol12)
+
+ceftrarol13 <- lm(ceftraroline_log2 ~ ges, data = ceftraroline)   
+summary(ceftrarol13)
+
+ceftrarol14 <- lm(ceftraroline_log2 ~ acc, data = ceftraroline)   
+summary(ceftrarol14)
+
+ceftrarol15 <- lm(ceftraroline_log2 ~ cmy2, data = ceftraroline)   
+summary(ceftrarol15)
+
+ceftrarol17 <- lm(ceftraroline_log2 ~ dha, data = ceftraroline)   
+summary(ceftrarol17)
+
+ceftrarol18 <- lm(ceftraroline_log2 ~ fox, data = ceftraroline)   
+summary(ceftrarol18)
+
+ceftrarol19 <- lm(ceftraroline_log2 ~ act, data = ceftraroline)   
+summary(ceftrarol19)
+
+ceftrarol20 <- lm(ceftraroline_log2 ~ kpc, data = ceftraroline)   
+summary(ceftrarol20)
+
+ceftrarol21 <- lm(ceftraroline_log2 ~ oxa, data = ceftraroline)   
+summary(ceftrarol21)
+
+ceftrarol22 <- lm(ceftraroline_log2 ~ ndm, data = ceftraroline)   
+summary(ceftrarol22)
+
+ceftrarol23 <- lm(ceftraroline_log2 ~ imp, data = ceftraroline)   
+summary(ceftrarol23)
+
+ceftrarol24 <- lm(ceftraroline_log2 ~ vim, data = ceftraroline)   
+summary(ceftrarol24)
+
+ceftrarol25 <- lm(ceftraroline_log2 ~ shv, data = ceftraroline)   
+summary(ceftrarol25)
+
+ceftrarol26 <- lm(ceftraroline_log2 ~ tem, data = ceftraroline)   
+summary(ceftrarol26)
+
+```
+
+
+#Multiple liniear Regression_Ceftraroline
+```{r}
+ceftraroline$bacteria <- relevel(ceftraroline$bacteria, ref = "E. coli")
+ceftraroline$Gender <- relevel(ceftraroline$Gender, ref = "Male")
+
+
+
+mceftrarol1 <-lm(ceftraroline_log2 ~ Country+bacteria+Gender+Age.Group+Speciality+Year2+ctxm1+ctxm2+ctxm825+ctxm9+veb+per+ges+acc+cmy2+dha+fox+act+kpc+oxa+ndm+imp+vim+shv+tem, data = ceftraroline)
+
+
+summary(mceftrarol1) #Adjusted R^2 =75%
+
+# Model diagnostics and checking
+par(mfrow=c(2,2))
+plot(mceftrarol1)
+
+# Extract the residuals
+aov_residuals_mceftrarol1 <- residuals(object = mceftrarol1)
+# Run Shapiro-Wilk test
+#shapiro.test(x = aov_residuals_mceftrarol1)
+
+
+vif(mceftrarol1)
+
+#Multicollinearity test :There was no collinearity between the variables in model 1 and 2
+
+
+
+# Statistical test for constant variance or homoscedasticity
+bptest (mceftrarol1)
+
+
+#p value is less than 0.05 so heterocedasticity present
+
+
+```
+
+
+
+#Robust model_Ceftraroline
+
+```{r}
+library(sandwich)
+library(lmtest)
+mceftrarol1_robust <- coeftest(mceftrarol1, vcov = vcovHC(mceftrarol1, type = "HC1"))
+mceftrarol1_robust
+
+confint(mceftrarol1_robust)
+
+#Log back transform was done in log Base 2 calculator
+#https://www.omnicalculator.com/math/log-2
+
+
+```
+
+
+##Imipenem
+```{r}
+
+imipenem1 <-read.csv("imipenem.csv")
+
+imipenem <- imipenem1 %>% 
+  filter(Gender %in% c("Male", "Female"), Age.Group %in% c("0 to 2 Years", "3 to 12 Years", "13 to 18 Years", "19 to 64 Years", "65 to 84 Years", "85 and Over"))%>%
+  select(bacteria, Country, Gender, Age.Group, Speciality, Year, Imipenem_mic, shv, tem, ctxm1, ctxm2, ctxm825, ctxm9, veb, per, ges, acc, cmy2, dha, fox, act, kpc, oxa, ndm, imp, vim)
+
+
+str(imipenem)
+summary(imipenem)
+hist(imipenem$Imipenem_mic)
+
+#log transforma
+imipenem$imipenem_log2 <-log2(imipenem$Imipenem_mic)
+hist(imipenem$imipenem_log2)
+
+
+imipenem$bacteria <- as.factor(imipenem$bacteria)
+imipenem$Country <- as.factor(imipenem$Country)
+imipenem$Gender <- as.factor(imipenem$Gender)
+imipenem$Age.Group <- as.factor(imipenem$Age.Group)
+imipenem$Speciality <- as.factor(imipenem$Speciality)
+imipenem$Year <- as.factor(imipenem$Year)
+imipenem$shv <- as.factor(imipenem$shv)
+imipenem$tem <- as.factor(imipenem$tem)
+imipenem$ctxm1 <- as.factor(imipenem$ctxm1)
+imipenem$ctxm2 <- as.factor(imipenem$ctxm2)
+imipenem$ctxm825 <- as.factor(imipenem$ctxm825)
+imipenem$ctxm9 <- as.factor(imipenem$ctxm9)
+imipenem$veb <- as.factor(imipenem$veb)
+imipenem$per <- as.factor(imipenem$per)
+imipenem$ges <- as.factor(imipenem$ges)
+imipenem$acc <- as.factor(imipenem$acc)
+imipenem$cmy2 <- as.factor(imipenem$cmy2)
+imipenem$dha <- as.factor(imipenem$dha)
+imipenem$fox <- as.factor(imipenem$fox)
+imipenem$act <- as.factor(imipenem$act)
+imipenem$kpc <- as.factor(imipenem$kpc)
+imipenem$oxa <- as.factor(imipenem$oxa)
+imipenem$ndm <- as.factor(imipenem$ndm)
+imipenem$imp <- as.factor(imipenem$imp)
+imipenem$vim <- as.factor(imipenem$vim)
+
+
+imipenem$Year2 <- as.numeric(imipenem$Year)
+
+```
+
+
+#Simple linear regression_Ceftraroline
+```{r}
+
+library(lmtest)
+
+imi1 <- lm(imipenem_log2 ~ bacteria, data = imipenem)   
+summary(imi1)
+
+imi2 <- lm(imipenem_log2 ~ Country, data = imipenem)   
+summary(imi2)
+
+imi3 <- lm(imipenem_log2 ~ Gender, data = imipenem)   
+summary(imi3)
+
+imi4 <- lm(imipenem_log2 ~ Age.Group, data = imipenem)   
+summary(imi4)
+
+imi5 <- lm(imipenem_log2 ~ Speciality, data = imipenem)   
+summary(imi5)
+
+imi6 <- lm(imipenem_log2 ~ Year2, data = imipenem)   
+summary(imi6)
+
+imi7 <- lm(imipenem_log2 ~ ctxm1, data = imipenem)   
+summary(imi7)
+
+imi8 <- lm(imipenem_log2 ~ ctxm2, data = imipenem)   
+summary(imi8)
+
+imi9 <- lm(imipenem_log2 ~ ctxm825, data = imipenem)   
+summary(imi9)
+
+imi10 <- lm(imipenem_log2 ~ ctxm9, data = imipenem)   
+summary(imi10)
+
+imi11 <- lm(imipenem_log2 ~ veb, data = imipenem)   
+summary(imi11)
+
+imi12 <- lm(imipenem_log2 ~ per, data = imipenem)   
+summary(imi12)
+
+imi13 <- lm(imipenem_log2 ~ ges, data = imipenem)   
+summary(imi13)
+
+imi14 <- lm(imipenem_log2 ~ acc, data = imipenem)   
+summary(imi14)
+
+imi15 <- lm(imipenem_log2 ~ cmy2, data = imipenem)   
+summary(imi15)
+
+imi17 <- lm(imipenem_log2 ~ dha, data = imipenem)   
+summary(imi17)
+
+imi18 <- lm(imipenem_log2 ~ fox, data = imipenem)   
+summary(imi18)
+
+imi19 <- lm(imipenem_log2 ~ act, data = imipenem)   
+summary(imi19)
+
+imi20 <- lm(imipenem_log2 ~ kpc, data = imipenem)   
+summary(imi20)
+
+imi21 <- lm(imipenem_log2 ~ oxa, data = imipenem)   
+summary(imi21)
+
+imi22 <- lm(imipenem_log2 ~ ndm, data = imipenem)   
+summary(imi22)
+
+imi23 <- lm(imipenem_log2 ~ imp, data = imipenem)   
+summary(imi23)
+
+imi24 <- lm(imipenem_log2 ~ vim, data = imipenem)   
+summary(imi24)
+
+imi25 <- lm(imipenem_log2 ~ shv, data = imipenem)   
+summary(imi25)
+
+imi26 <- lm(imipenem_log2 ~ tem, data = imipenem)   
+summary(imi26)
+
+```
+
+#Multiple liniear Regression_Imipenem
+```{r}
+imipenem$bacteria <- relevel(imipenem$bacteria, ref = "E. coli")
+imipenem$Gender <- relevel(imipenem$Gender, ref = "Male")
+
+
+
+mimi1 <-lm(imipenem_log2 ~ Country+bacteria+Gender+Age.Group+Speciality+Year2+ctxm1+ctxm2+ctxm825+ctxm9+veb+per+ges+acc+cmy2+dha+fox+act+kpc+oxa+ndm+imp+vim+shv+tem, data = imipenem)
+
+
+summary(mimi1) #Adjusted R^2 =76%
+
+# Model diagnostics and checking
+par(mfrow=c(2,2))
+plot(mimi1)
+
+# Extract the residuals
+aov_residuals_mimi1 <- residuals(object = mimi1)
+# Run Shapiro-Wilk test
+#shapiro.test(x = aov_residuals_mimi1)
+
+
+
+vif(mimi1)
+#Multicollinearity test :There was no collinearity between the variables in model 1 and 2
+
+
+# Statistical test for constant variance or homoscedasticity
+bptest (mimi1)
+
+#p value is less than 0.05 so heterocedasticity present
+
+
+```
+
+
+#Robust model_Imipenem
+```{r}
+library(sandwich)
+library(lmtest)
+mimi1_robust <- coeftest(mimi1, vcov = vcovHC(mimi1, type = "HC1"))
+mimi1_robust
+confint(mimi1_robust)
+
+#Log back transform was done in log Base 2 calculator
+#https://www.omnicalculator.com/math/log-2
+
+```
+
+
+
+#Meropenem
+
+
+```{r}
+meropenem1 <-read.csv("meropenem.csv")
+
+meropenem1$Meropenem_mic
+
+
+meropenem <- meropenem1 %>% 
+  filter(Gender %in% c("Male", "Female"), Age.Group %in% c("0 to 2 Years", "3 to 12 Years", "13 to 18 Years", "19 to 64 Years", "65 to 84 Years", "85 and Over"))%>%
+  select(bacteria, Country, Gender, Age.Group, Speciality, Year, Meropenem_mic, shv, tem, ctxm1, ctxm2, ctxm825, ctxm9, veb, per, ges, acc, cmy2, dha, fox, act, kpc, oxa, ndm, imp, vim)
+
+
+str(meropenem)
+summary(meropenem)
+hist(meropenem$Meropenem_mic)
+
+#log transformation
+meropenem$meropenem_log2 <-log2(meropenem$Meropenem_mic)
+hist(meropenem$meropenem_log2)
+
+
+meropenem$bacteria <- as.factor(meropenem$bacteria)
+meropenem$Country <- as.factor(meropenem$Country)
+meropenem$Gender <- as.factor(meropenem$Gender)
+meropenem$Age.Group <- as.factor(meropenem$Age.Group)
+meropenem$Speciality <- as.factor(meropenem$Speciality)
+meropenem$Year <- as.factor(meropenem$Year)
+meropenem$shv <- as.factor(meropenem$shv)
+meropenem$tem <- as.factor(meropenem$tem)
+meropenem$ctxm1 <- as.factor(meropenem$ctxm1)
+meropenem$ctxm2 <- as.factor(meropenem$ctxm2)
+meropenem$ctxm825 <- as.factor(meropenem$ctxm825)
+meropenem$ctxm9 <- as.factor(meropenem$ctxm9)
+meropenem$veb <- as.factor(meropenem$veb)
+meropenem$per <- as.factor(meropenem$per)
+meropenem$ges <- as.factor(meropenem$ges)
+meropenem$acc <- as.factor(meropenem$acc)
+meropenem$cmy2 <- as.factor(meropenem$cmy2)
+meropenem$dha <- as.factor(meropenem$dha)
+meropenem$fox <- as.factor(meropenem$fox)
+meropenem$act <- as.factor(meropenem$act)
+meropenem$kpc <- as.factor(meropenem$kpc)
+meropenem$oxa <- as.factor(meropenem$oxa)
+meropenem$ndm <- as.factor(meropenem$ndm)
+meropenem$imp <- as.factor(meropenem$imp)
+meropenem$vim <- as.factor(meropenem$vim)
+
+meropenem$Year2 <- as.numeric(meropenem$Year)
+
+```
+
+
+#Simple linear regression_Ceftraroline
+```{r}
+
+library(lmtest)
+
+mero1 <- lm(meropenem_log2 ~ bacteria, data = meropenem)   
+summary(mero1)
+
+mero2 <- lm(meropenem_log2 ~ Country, data = meropenem)   
+summary(mero2)
+
+mero3 <- lm(meropenem_log2 ~ Gender, data = meropenem)   
+summary(mero3)
+
+mero4 <- lm(meropenem_log2 ~ Age.Group, data = meropenem)   
+summary(mero4)
+
+ceftrarol5 <- lm(meropenem_log2 ~ Speciality, data = meropenem)   
+summary(ceftrarol5)
+
+ceftrarol6 <- lm(meropenem_log2 ~ Year2, data = meropenem)   
+summary(ceftrarol6)
+
+mero7 <- lm(meropenem_log2 ~ ctxm1, data = meropenem)   
+summary(mero7)
+
+mero8 <- lm(meropenem_log2 ~ ctxm2, data = meropenem)   
+summary(mero8)
+
+mero9 <- lm(meropenem_log2 ~ ctxm825, data = meropenem)   
+summary(mero9)
+
+mero10 <- lm(meropenem_log2 ~ ctxm9, data = meropenem)   
+summary(mero10)
+
+mero11 <- lm(meropenem_log2 ~ veb, data = meropenem)   
+summary(mero11)
+
+mero12 <- lm(meropenem_log2 ~ per, data = meropenem)   
+summary(mero12)
+
+mero13 <- lm(meropenem_log2 ~ ges, data = meropenem)   
+summary(mero13)
+
+mero14 <- lm(meropenem_log2 ~ acc, data = meropenem)   
+summary(mero14)
+
+mero15 <- lm(meropenem_log2 ~ cmy2, data = meropenem)   
+summary(mero15)
+
+mero17 <- lm(meropenem_log2 ~ dha, data = meropenem)   
+summary(mero17)
+
+mero18 <- lm(meropenem_log2 ~ fox, data = meropenem)   
+summary(mero18)
+
+mero19 <- lm(meropenem_log2 ~ act, data = meropenem)   
+summary(mero19)
+
+mero20 <- lm(meropenem_log2 ~ kpc, data = meropenem)   
+summary(mero20)
+
+mero21 <- lm(meropenem_log2 ~ oxa, data = meropenem)   
+summary(mero21)
+
+mero22 <- lm(meropenem_log2 ~ ndm, data = meropenem)   
+summary(mero22)
+
+mero23 <- lm(meropenem_log2 ~ imp, data = meropenem)   
+summary(mero23)
+
+mero24 <- lm(meropenem_log2 ~ vim, data = meropenem)   
+summary(mero24)
+
+mero25 <- lm(meropenem_log2 ~ shv, data = meropenem)   
+summary(mero25)
+
+mero26 <- lm(meropenem_log2 ~ tem, data = meropenem)   
+summary(mero26)
+
+```
+
+
+#Multiple liniear Regression_Meropenem
+```{r}
+meropenem$bacteria <- relevel(meropenem$bacteria, ref = "E. coli")
+meropenem$Gender <- relevel(meropenem$Gender, ref = "Male")
+
+
+
+mmero1 <-lm(meropenem_log2 ~ Country+bacteria+Gender+Age.Group+Speciality+Year2+ctxm1+ctxm2+ctxm825+ctxm9+veb+per+ges+acc+cmy2+dha+fox+act+kpc+oxa+ndm+imp+vim+shv+tem, data = meropenem)
+
+
+summary(mmero1)
+```
+
+#Robust model_meropenem
+
+```{r}
+library(sandwich)
+library(lmtest)
+mmero1_robust <- coeftest(mmero1, vcov = vcovHC(mmero1, type = "HC1"))
+mmero1_robust
+
+confint(mmero1_robust)
+
+#Log back transform was done in log Base 2 calculator
+#https://www.omnicalculator.com/math/log-2
+
+
+```
+
+
+
+
+
